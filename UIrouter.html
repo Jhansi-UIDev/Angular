@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>SPA</title>
+</head>
+<body>
+		<div ng-app="myApp">
+		
+		  <nav> 
+			<a ui-sref="home"> Home </a>	&nbsp;	
+			<a ui-sref="about"> About </a>	&nbsp;
+			<a ui-sref="contact"> Contact </a>	&nbsp;
+		  </nav>	 
+		
+		<ui-view> </ui-view>
+		</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.js"></script>
+
+<script >
+	 var app=angular.module('myApp', ['ui.router']);
+	 app.config(['$stateProvider', function($stateProvider){
+	 
+	 	var aboutState={
+	 		name: "about",
+	 		url: "/about",
+	 		template: "Hello you are in about page"
+	 	}
+	 	var contactState={
+	 		name: "contact",
+	 		url: "/contact",
+	 		template: "Hello you are in contact page"
+	 	}
+
+	 	$stateProvider.state({
+	 		name: "home",
+	 		url: "/home",
+	 		template: "Hello you are in home page"
+	 	});
+
+
+	 	$stateProvider.state(aboutState);
+
+	 	$stateProvider.state(contactState);
+	 }]);
+</script>
+
+</body>
+</html>

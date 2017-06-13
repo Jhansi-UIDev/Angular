@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>RESTful web services</title>
+</head>
+<body>
+	<div ng-app="myApp">
+		<div ng-controller="myController">
+			Enter a task name:<input type="text" ng-model="taskName"> &nbsp;
+			Enter Priority: <input type="number" ng-model="priority"> &nbsp;
+			<button ng-click="addTask()"> Add task</button>
+
+			<table border="1px">
+				<thead>
+					<th>Task</th>
+					<th>Priority</th>
+					<th>ID</th>
+				</thead>
+				<tbody>
+					<tr ng-show="!!item.id" 
+					ng-repeat="item in message|orderBy:'priority' track by $index">
+					   <td ng-hide="item.edit">{{item.taskName}}</td>
+					   <td ng-hide="item.edit">{{item.priority}}</td>
+					   <td ng-hide="item.edit">{{item.id}}</td>
+					   <td ng-hide="item.edit"><button ng-click="removeTask(item.id)">Remove task</button></td>
+					   <td ng-hide="item.edit"><button ng-click="editTask(item)">Edit task</button></td>
+					   <td ng-show="item.edit"><input type="text" ng-model="item.changedTask"></td>
+					   <td ng-show="item.edit"><input type="number" ng-model="item.changedPriority"></td>
+					   <td ng-show="item.edit">{{item.id}}</td>
+					   <td ng-show="item.edit"><button ng-click="dontUpdate(item)">Don't update</button></td>
+					   <td ng-show="item.edit"><button ng-click="update(item)">Update</button></td>						
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.4/angular.min.js"></script>
+	<script>
+		var app=angular.module("myApp", []);
+		app.controller('myController', ['$scope', '$http', function($scope, $http){
+			$scope.message=[];
+			$scope.checkForObject= function(){
+				if(Array.isArray(item)|| (typeof item !== 'object')) return false;
+				else true;
+			}
+		function getData(){
+			$http({
+				url: "http://rest.learncode.academy/api/exam/tasks/",
+				method: 'GET'
+			}).success(function(data){
+				$scope.message=data;
+				console.log("success", data);
+			}).error(function(err){
+				alert("Error in retrieving the data");
+				console.log("error", err);
+			})
+	    }
+
+	    getData();
+
+	    $scope.removeTask= function(id){
+	    	$http({
+				url: "http://rest.learncode.academy/api/exam/tasks/"+ id,
+				method: 'DELETE'
+			}).success(function(data){
+				getData();
+				console.log("Deleted", data);
+			}).error(function(err){
+				alert("Error in deleting the task");
+				console.log("error", err);
+			})
+	    }
+
+	    $scope.addTask= function(){
+	    	var newTask= $scope.taskName;
+	    	var newPriority= $scope.priority;
+	    	$scope.taskName="";
+	    	$scope.priority="";
+	    	var newInfo={
+	    		taskName: newTask,
+	    		priority: newPriority
+	    	}
+	    	$http({
+				url: "http://rest.learncode.academy/api/exam/tasks/",
+				method: 'POST',
+				data: newInfo
+			}).success(function(data){
+				getData();
+				console.log("success", data);
+			}).error(function(err){
+				alert("Error in adding the task");
+				console.log("error", err);
+			})
+	    }
+
+	    $scope.editTask= function(item){
+	       item.edit=true;
+	       item.changedTask=item.taskName;
+	       item.changedPriority=item.priority;
+	    }
+
+	    $scope.update=function(item){
+	    	var changedTask= item.changedTask;
+	    	var changedPriority= Number.parseFloat(item.changedPriority);
+	    	var changedInfo={
+	    		taskName: changedTask,
+	    		priority: changedPriority
+	    	}
+	    	$http({
+				url: "http://rest.learncode.academy/api/exam/tasks/"+item.id,
+				method: 'PUT',
+				data: changedInfo
+			}).success(function(data){
+				getData();
+				console.log("success", data);
+			}).error(function(err){
+				alert("Error in updating the task");
+				console.log("error", err);
+			})
+	    }
+
+
+	    $scope.dontUpdate= function(item){
+	    	item.edit=false;
+	    }
+
+		}])
+	</script>
+</body>
+</html>

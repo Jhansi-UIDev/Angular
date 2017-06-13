@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<div ng-app="myApp">
+  <input type="text" ng-model="hi" >
+  {{hi}}
+  {{message}}
+  <div ng-controller="myCtrl">
+  	{{message}}
+  </div>
+  skejfkjsdnfnjs	
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.4/angular.min.js"></script>
+	<script >
+		var app= angular.module("myApp",[]);
+		app.controller('myCtrl', ['$scope', function($scope){
+			$scope.message="hello";
+
+		}])
+	</script>
+</body>
+</html>
