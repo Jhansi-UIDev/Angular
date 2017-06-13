@@ -1,0 +1,55 @@
+
+<!-- AngularJS Provider
+In AngularJS services can be created using service, factory and provider. Service object contains few useful functions that you can call from Controllers, Directive and Filters etc.
+
+A provider is used to create a configurable service object and returns value by using $get() function.
+ -->
+
+<html>  
+<head> <!-- www.techstrikers.com -->  
+<title>My first AngularJS Provider code</title>  
+<Script SRC="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular.js">  
+</script>  
+<Script>  
+//Defining Provider  
+var app = angular.module('app', []);  
+  
+//defining provider
+ app.provider('configurable', function () {
+  var resultMul = 0;
+   
+ this.Multiply = function (a,b) {
+   resultMul = (a * b);
+ };
+   this.$get = function () {
+   return { name: resultMul };
+   };
+ });
+
+ //configuring provider
+ app.config(function (configurableProvider) {
+   configurableProvider.Multiply(2,2);
+ });
+ 
+app.controller('CalculatorController', function($scope,configurable) { 
+   $scope.doMultiply = function() {   
+        $scope.answer = configurable.name;   
+    };
+});  
+</script>  
+</head>  
+<body style="background-color:#DDE4E9;">  
+<fieldset style="background-color:#DDE4E9;">        
+    <legend>AngulerJS Provider Example</legend>     
+<div ng-app="app">  
+    <div ng-controller="CalculatorController">  
+        <button ng-click="doMultiply()">Multiply</button><br/>
+      <p style="font-family:Arial;color:yellow;background:steelblue;padding:3px;width:350px;"> 
+        Answer : {{answer}}</p> 
+    </div>  
+</div>  
+  
+</div>
+        </fieldset> 
+</body>  
+</html> 

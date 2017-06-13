@@ -1,0 +1,44 @@
+
+<!-- In AngularJS, since all the controllers defined in application are share all the properties and methods via $scope object, each controller will have access to properties and methods defined by controllers higher up in the controller defination hierarchy. In the below example showing two controllers "ParentController" and "ChildController". The "ChildController" accessing properties "hasPANNo" of parent controller when using in an hierarchy fashion of controller. Inheritance works with properties as well as methods. -->
+
+<!DOCTYPE html>
+<html ng-app="yourApp">  
+<head>
+  <!-- www.techstrikers.com -->
+<title>My first AngularJS Controllers Inheritance code</title>  
+<Script SRC="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular.js">  
+</script>  
+<Script type="text/javascript">  
+//Creating Modules and Controller here  
+var app = angular.module('yourApp', []);  
+  
+    app.controller('ParentController', function($scope) {    
+      $scope.customer = {hasPANNo: false } ;  
+    })   
+  
+    app.controller('ChildController', function($scope) {  
+      $scope.displayCustomer = function() {  
+        $scope.customer.name = "Jimi Scott";  
+        $scope.customer.hasPANNo = true;  
+      }  
+
+    })  
+
+    
+</script>  
+</head>  
+<body>  
+  
+<div ng-controller="ParentController">  
+    
+    <div ng-controller="ChildController">  
+      <a href="#" ng-click="displayCustomer()">DisplayCustomer</a> 
+    </div>  
+    {{ "Name : " + customer.name }} </br>  
+    {{ 'PanNo: ' + customer.hasPANNo }} 
+
+     
+  </div>  
+  
+</body>  
+</html> 
