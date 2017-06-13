@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Directive</title>
+</head>
+<body>
+<div ng-app="myApp">
+<div ng-controller="ctrl1">
+    Enter firstName:<input type="text" ng-model="firstName">
+    Enter lastName:<input type="text" ng-model="lastName">
+
+<dir1>directive</dir1>
+<!-- <div class="dir1"></div>
+<div dir1></div> -->
+</div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+<script>
+	angular.module("myApp",[]);
+	angular.module("myApp").controller("ctrl1",function($scope){
+		$scope.firstName="Jhansi"
+	})
+	angular.module("myApp").directive("dir1",function(){
+		return{
+		restrict:"ECAM",
+		template:"<div><ng-transclude></ng-transclude><div>Enter first Name of directive:<input type='text' ng-model='firstName'><br/>Enter last name of directive:<input type='text' ng-model='lastName'></div></div>",
+		transclude:true,
+		scope:false
+		
+	}
+	})
+</script>
+
+</body>
+</html>
